@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Interfaces\HomeInterface;
 
-class HomeController extends Controller
+class HomeController extends Controller implements HomeInterface
 {
     /**
      * Create a new controller instance.

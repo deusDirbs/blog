@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ManufactureController;
+use App\Http\Controllers\XmlController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ParsingController;
+use App\Http\Controllers\SearchController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,5 +33,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/parser', [ParsingController::class, 'create']);
+Route::get('/manufactures', [ManufactureController::class, 'index'])->name('manufactures');
+Route::get('/manufacture/create', [ManufactureController::class, 'create'])->name('create-manufacture');
+Route::post('/manufacture/save', [ManufactureController::class, 'save'])->name('save-manufacture');
+
+/* upload files */
+Route::get('upload/upload-file', [FileUploadController::class, 'createForm']);
+Route::post('upload/upload-file', [FileUploadController::class, 'fileUpload'])->name('fileUpload');
+
+Route::get('upload/xml', [XmlController::class, 'create']);
+Auth::routes();

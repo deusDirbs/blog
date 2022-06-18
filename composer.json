@@ -6,17 +6,28 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-curl": "*",
+        "ext-zlib": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "phpoffice/phpspreadsheet": "^1.23",
+        "shuchkin/simplexls": "^0.10.1",
+      "ext-simplexml": "*",
+        "ext-xmlreader": "*",
+        "ext-xml": "*",
+        "ext-libxml": "*",
+      "ext-json": "*"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
+        "laravel/ui": "^3.4",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3"
@@ -34,6 +45,7 @@
         }
     },
     "scripts": {
+        "dev": "npx webpack",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
