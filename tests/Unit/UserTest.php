@@ -14,21 +14,21 @@ class UserTest extends TestCase
      */
     public function test_login_form()
     {
-      $response = $this->get('/login');
+        $response = $this->get('/login');
 
-      $response->assertStatus(200);
+        $response->assertStatus(200);
     }
 
     public function test_user_duplication()
     {
         $user1 = User::make([
-           'name' => 'Dmytro Lozov',
-           'email' =>  'dmytro@gmail.com'
+            'name' => 'Dmytro Lozov',
+            'email' => 'dmytro@gmail.com'
         ]);
 
         $user2 = User::make([
             'name' => 'Dary',
-            'email' =>  'dary@gmail.com'
+            'email' => 'dary@gmail.com'
         ]);
 
         $this->assertTrue($user1->name != $user2->name);
@@ -48,13 +48,6 @@ class UserTest extends TestCase
         ]);
 
         $response->assertRedirect('/home');
-    }
-
-    public function test_database()
-    {
-        $this->assertDatabaseMissing('users', [
-            'name' => 'Kolya',
-        ]);
     }
 
     public function test_if_seeder_works()
