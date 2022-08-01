@@ -63,7 +63,7 @@ class ManufactureService
     /**
      * @param MacAddressDto $dto
      * @param int $id
-     * @return Manufacture
+     * @return ManufactureMacAddress
      */
     public function saveMacAddressRelation(MacAddressDto $dto, int $id): ManufactureMacAddress
     {
@@ -114,71 +114,21 @@ class ManufactureService
         );
 
         return $this->save($dto);
-//        $model = $this->createOneManufactureTitle($request);
-//        $this->createOneManufactureMacAddress($request, $model->id);
-//        $this->createOneManufactureAddress($request, $model->id);
-//
-//        return $model;
     }
 
     /**
-     * @param Request $request
-     * @return Manufacture
-     */
-    public function createOneManufactureTitle(Request $request): Manufacture
-    {
-        return Manufacture::create(
-            [
-                'title' => $request->title,
-            ]
-        );
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return ManufactureMacAddress
-     */
-    public function createOneManufactureMacAddress(Request $request, int $id): ManufactureMacAddress
-    {
-        return ManufactureMacAddress::updateOrCreate(
-            [
-                'manufacture_id' => $id,
-                'mac' => $request->mac,
-                'address_format' => $request->address_format,
-            ]
-        );
-    }
-
-    /**
-     * @param Request $request
-     * @param int $id
-     * @return ManufactureAddress
-     */
-    public function createOneManufactureAddress(Request $request, int $id): ManufactureAddress
-    {
-       return ManufactureAddress::create(
-            [
-                'manufacture_id' => $id,
-                'street' => $request->street,
-                'city' => $request->city,
-                'country' => $request->country,
-            ]
-        );
-    }
-
-    /**
-     * @param $manufactureMac
+     * @param Request $manufactureMac
      * @return bool
      */
-    public function validateManufactureMac($manufactureMac): bool
+    public function validateManufactureMac(Request $manufactureMac): bool
     {
         $pattern = '/^(\d{2}-){2}\d{2}$|^\d{6}$/';
+        $timeNow = Carbon::now();
 
         if (!empty($manufactureMac->mac)) {
             $result = preg_match($pattern, $manufactureMac->mac);
             if ((integer)$result === 0) {
-                Log::warning($manufactureMac->mac . ' - This MAC address is in the wrong format!');
+                Log::warning($timeNow . '-' . $manufactureMac->mac . ' - This MAC address is in the wrong format!');
                 session()->flash('error', 'Errors were detected while recording MAC ADDRESSES');
             }
         }

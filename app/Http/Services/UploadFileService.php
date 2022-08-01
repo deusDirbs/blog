@@ -50,9 +50,9 @@ class UploadFileService
     /**
      * @param Request $request
      * @param File $fileModel
-     * @return false|string
+     * @return string
      */
-    public function create(Request $request, File $fileModel)
+    public function create(Request $request, File $fileModel): string
     {
         if ($request->file()) {
             $fileName = time() . '_' . $request->file->getClientOriginalName();

@@ -3,8 +3,6 @@
 namespace App\Http\Services;
 
 
-use GuzzleHttp\Client;
-
 class ParsingService
 {
     private const GOOGLE = "http://www,google.com";
@@ -73,9 +71,9 @@ class ParsingService
 
     /**
      * @param string $string
-     * @return array|string|string[]|null
+     * @return string
      */
-    public function splitMacAddress(string $string)
+    public function splitMacAddress(string $string): string
     {
         $result = preg_replace("/\(|\)/", '', preg_split("/(\s+){2}/", $string));
 

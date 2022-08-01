@@ -3,17 +3,19 @@
 namespace App\Http\Services;
 
 use App\Http\Dto\DtoCollection;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class XmlService
 {
     /**
      * @param DtoCollection $dtoCollection
-     * @param $user
-     * @param $timeNow
+     * @param User $user
+     * @param Carbon $timeNow
      * @return bool
      */
-    public function save(DtoCollection $dtoCollection, $user, $timeNow): bool
+    public function save(DtoCollection $dtoCollection, User $user, Carbon $timeNow): bool
     {
         $xml = '';
         $xml .= '<manufactures>' . PHP_EOL;
