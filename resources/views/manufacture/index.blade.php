@@ -14,10 +14,10 @@
                 <div class="card">
                     <div class="card-header" style="text-align: center">{{ __('Manufactures') }}
                         <button type="submit" class="btn">
-                            <a href="/parser">{{ __('Create Manufactures (API)') }}</a>
+                            <a href="/parser/view">{{ __('Create Manufactures (API)') }}</a>
                         </button>
                         <button type="submit" class="btn">
-                            <a href="/upload/upload-file">{{ __('Upload XML file') }}</a>
+                            <a href="/xml/create">{{ __('Upload XML file') }}</a>
                         </button>
                         <button type="submit" class="btn" style="float: right">
                             <a href="/manufacture/create">{{ __('Create new Manufacture') }}</a>

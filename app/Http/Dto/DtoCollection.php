@@ -22,10 +22,12 @@ class DtoCollection implements DtoCollectionInterface
 
     /**
      * @param DtoInterface $dto
-     * @return void
+     * @return DtoCollection
      */
-    public function add(DtoInterface $dto): void
+    public function add(DtoInterface $dto): DtoCollection
     {
         $this->item[] = $dto;
+
+        return $this;
     }
 }

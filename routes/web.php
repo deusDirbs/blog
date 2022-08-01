@@ -36,7 +36,8 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/parser', [ParsingController::class, 'create']);
+Route::get('parser/view', [ParsingController::class, 'createForm']);
+Route::post('parser/create', [ParsingController::class, 'create'])->name('parserCreate');
 Route::get('/manufactures', [ManufactureController::class, 'index'])->name('manufactures');
 Route::get('/manufacture/create', [ManufactureController::class, 'create'])->name('create-manufacture');
 Route::post('/manufacture/save', [ManufactureController::class, 'save'])->name('save-manufacture');
@@ -45,5 +46,8 @@ Route::post('/manufacture/save', [ManufactureController::class, 'save'])->name('
 Route::get('upload/upload-file', [FileUploadController::class, 'createForm']);
 Route::post('upload/upload-file', [FileUploadController::class, 'fileUpload'])->name('fileUpload');
 
-Route::get('upload/xml', [XmlController::class, 'create']);
+/* xml */
+Route::get('xml/create', [XmlController::class, 'createForm']);
+Route::post('upload/xml', [XmlController::class, 'create'])->name('xmlUpload');
+
 Auth::routes();

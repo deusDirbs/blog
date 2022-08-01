@@ -7,6 +7,8 @@ use App\Http\Helpers\DataStructureHelper;
 use App\Http\Interfaces\ParsingInterface;
 use App\Http\Services\ManufactureService;
 use App\Http\Services\ParsingService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ParsingController extends Controller implements ParsingInterface
 {
@@ -30,15 +32,44 @@ class ParsingController extends Controller implements ParsingInterface
         $this->manufactureService = $manufactureService;
     }
 
-    /**
-     * @return void
-     */
-    public function create(): void
+    function createForm()
     {
-        $getCurl = $this->parsingService->getCurl('https://standards-oui.ieee.org/');
-        $matches = $this->parsingService->pregMatchAll($getCurl);
-        $result = $this->parsingService->getFormat($matches);
+        return view('parser/create');
+    }
 
-        $this->manufactureService->saveAll(DataStructureHelper::createManufactureStructure($result, $this->parsingService));
+    /**
+     * @param bool $success
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    private function return(bool $success)
+    {
+        if ($success) {
+            session()->flash('success', 'File success create!');
+            return view('xml/create');
+        }
+
+        Log::warning('This DATA is in the wrong format!');
+        session()->flash('error', 'This DATA is in the wrong format!');
+
+        return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function create(Request $request)
+    {
+        if ($this->manufactureService->validateCreateOrUpdateData()) {
+            if ($isSuccess = is_string($data = $this->parsingService->getDataForCurl($request->http))) {
+                $pregMatchAll = $this->parsingService->pregMatchAll($data);
+                $result = $this->parsingService->getFormat($pregMatchAll);
+                $isSuccess = $this->manufactureService->saveAll(DataStructureHelper::createManufactureStructure($result, $this->parsingService));
+            }
+
+            return $this->return($isSuccess);
+        }
+
+        return back();
     }
 }

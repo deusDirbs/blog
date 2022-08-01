@@ -9,9 +9,11 @@ class XmlService
 {
     /**
      * @param DtoCollection $dtoCollection
-     * @return void
+     * @param $user
+     * @param $timeNow
+     * @return bool
      */
-    public function save(DtoCollection $dtoCollection): void
+    public function save(DtoCollection $dtoCollection, $user, $timeNow): bool
     {
         $xml = '';
         $xml .= '<manufactures>' . PHP_EOL;
@@ -33,6 +35,6 @@ class XmlService
         }
         $xml .= '<manufactures>' . PHP_EOL;
 
-        Storage::disk('public')->put('my_file.xml', $xml);
+        return Storage::disk('public')->put('id-' . $user->id . '-' . $timeNow . '-' . 'file.xml', $xml);
     }
 }

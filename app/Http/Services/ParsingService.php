@@ -3,14 +3,18 @@
 namespace App\Http\Services;
 
 
+use GuzzleHttp\Client;
+
 class ParsingService
 {
+    private const GOOGLE = "http://www,google.com";
+
     /**
      * @param $url
      * @param $referer
      * @return bool|string
      */
-    public function getCurl($url, $referer = 'http://www,google.com')
+    public function getDataForCurl($url, $referer = self::GOOGLE): string
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -37,13 +41,13 @@ class ParsingService
     }
 
     /**
-     * @param array $matches
+     * @param array $pregMatchAll
      * @return array
      */
-    public function getFormat(array $matches): array
+    public function getFormat(array $pregMatchAll): array
     {
         $out = [];
-        foreach ($matches as $match) {
+        foreach ($pregMatchAll as $match) {
             $out = $this->splitData($match, $out);
         }
 
