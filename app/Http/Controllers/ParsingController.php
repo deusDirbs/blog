@@ -32,6 +32,9 @@ class ParsingController extends Controller implements ParsingInterface
         $this->manufactureService = $manufactureService;
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function createForm()
     {
         return view('parser/create');
@@ -55,7 +58,12 @@ class ParsingController extends Controller implements ParsingInterface
     }
 
     /**
-     * @param Request $request
+     * get with $request string http, processing and save
+     *
+     * $request -> string http
+     * set arrays $pregMatchAll -> result with using function preg_match_all
+     * set arrays $result -> result function preg_split
+     * @param Request $request this string http
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create(Request $request)

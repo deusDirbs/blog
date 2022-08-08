@@ -60,6 +60,10 @@ class ManufactureController extends Controller implements ManufactureInterface
     }
 
     /**
+     * push Request $request to processing
+     *
+     * $request -> all data by manufactures
+     * checking validate on the form
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */

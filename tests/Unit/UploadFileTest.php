@@ -6,14 +6,22 @@ use Tests\TestCase;
 
 class UploadFileTest extends TestCase
 {
-    public function test_open_upload_page()
+    /**
+     * check url GET: upload/upload-file
+     * @return void
+     */
+    public function test_open_upload_page(): void
     {
         $response = $this->get('upload/upload-file');
 
         $response->assertStatus(200);
     }
 
-    public function test_download_data_with_files()
+    /**
+     * check url POST: upload/upload-file
+     * @return void
+     */
+    public function test_download_data_with_files(): void
     {
         $response = $this->post('upload/upload-file', [
             'http' => 'https://standards-oui.ieee.org/'

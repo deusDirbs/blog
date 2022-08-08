@@ -23,6 +23,8 @@ class UploadFileService
     }
 
     /**
+     * validate on the form
+     *
      * @param Request $req
      * @return array
      */
@@ -34,6 +36,9 @@ class UploadFileService
     }
 
     /**
+     * push data with file in the xml format and push in saveAll for save
+     *
+     * $uploadFile- > process the file
      * @param Request $request
      * @return void
      */
@@ -48,6 +53,8 @@ class UploadFileService
     }
 
     /**
+     * $fileName -> create file name and save in path
+     *
      * @param Request $request
      * @param File $fileModel
      * @return string

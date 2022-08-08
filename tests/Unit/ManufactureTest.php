@@ -7,21 +7,34 @@ use Tests\TestCase;
 
 class ManufactureTest extends TestCase
 {
-    public function test_all_manufactures()
+    /**
+     * check status url: /manufactures
+     * @return void
+     */
+    public function test_all_manufactures(): void
     {
         $response = $this->get('/manufactures');
 
         $response->assertStatus(200);
     }
 
-    public function test_manufacture_page()
+    /**
+     * check status url: /manufactures/create
+     * @return void
+     */
+    public function test_manufacture_page(): void
     {
         $response = $this->get('/manufacture/create');
 
         $response->assertStatus(200);
     }
 
-    public function test_create_manufacture()
+    /**
+     * push manufacture data on the url: /manufacture/save
+     * save manufacture
+     * @return void
+     */
+    public function test_create_manufacture(): void
     {
         $response = $this->post('/manufacture/save', [
             'title' => 'Manufacture title one',
@@ -35,7 +48,11 @@ class ManufactureTest extends TestCase
         $response->assertRedirect('/manufactures');
     }
 
-    public function test_delete_manufacture()
+    /**
+     * delete last manufacture field
+     * @return void
+     */
+    public function test_delete_manufacture(): void
     {
         $manufacture = Manufacture::latest()->first();
 

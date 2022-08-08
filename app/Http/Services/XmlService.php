@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 class XmlService
 {
     /**
+     * create structures for XML file
+     *
      * @param DtoCollection $dtoCollection
      * @param User $user
      * @param Carbon $timeNow

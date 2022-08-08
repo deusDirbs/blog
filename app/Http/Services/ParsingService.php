@@ -8,9 +8,11 @@ class ParsingService
     private const GOOGLE = "http://www,google.com";
 
     /**
+     * create cross domain request
+     *
      * @param $url
      * @param $referer
-     * @return bool|string
+     * @return string
      */
     public function getDataForCurl($url, $referer = self::GOOGLE): string
     {
@@ -28,17 +30,21 @@ class ParsingService
     }
 
     /**
-     * @param string $getCurl
+     * Use function pregMatchAll on the curl data
+     *
+     * @param string $data
      * @return array
      */
-    public function pregMatchAll(string $getCurl): array
+    public function pregMatchAll(string $data): array
     {
-        preg_match_all('/([A-F0-9]{2})-([A-F0-9]{2})-([A-F0-9]{2})\s+\(\w+\)\s+(.+)\s+([A-Z0-9]{6})\s+\(.+\)\s+(.+){3}(.+\s+){3}\w{2}/', $getCurl, $matches);
+        preg_match_all('/([A-F0-9]{2})-([A-F0-9]{2})-([A-F0-9]{2})\s+\(\w+\)\s+(.+)\s+([A-Z0-9]{6})\s+\(.+\)\s+(.+){3}(.+\s+){3}\w{2}/', $data, $matches);
 
         return $matches;
     }
 
     /**
+     * set in array $out data with $pregMatchAll after process
+     *
      * @param array $pregMatchAll
      * @return array
      */
@@ -53,6 +59,8 @@ class ParsingService
     }
 
     /**
+     * use split function on the arrays $match
+     *
      * @param array $match
      * @param $out
      * @return array
@@ -70,10 +78,12 @@ class ParsingService
     }
 
     /**
-     * @param string $string
-     * @return string
+     * return array process $result for MacAddress
+     *
+     * @param string $string MacAddress
+     * @return array
      */
-    public function splitMacAddress(string $string): string
+    public function splitMacAddress(string $string): array
     {
         $result = preg_replace("/\(|\)/", '', preg_split("/(\s+){2}/", $string));
 

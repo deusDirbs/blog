@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Log;
 class ManufactureService
 {
     /**
+     * set in $item arrays with $dtoCollection
+     *
      * @param DtoCollection $dtoCollection
      * @return bool
      */
@@ -31,6 +33,8 @@ class ManufactureService
     }
 
     /**
+     * save or update $title manufacture and return model
+     *
      * @param ManufactureDto $manufactureDto
      * @return Manufacture
      */
@@ -44,6 +48,8 @@ class ManufactureService
     }
 
     /**
+     * save or update ManufactureAddress and return model
+     *
      * @param AddressDto $dto
      * @param int $id
      * @return ManufactureAddress
@@ -61,6 +67,8 @@ class ManufactureService
     }
 
     /**
+     * save or update ManufactureMacAddress and return model
+     *
      * @param MacAddressDto $dto
      * @param int $id
      * @return ManufactureMacAddress
@@ -77,6 +85,8 @@ class ManufactureService
     }
 
     /**
+     * create Transaction and save manufactures
+     *
      * @param ManufactureDto $manufactureDto
      * @return bool
      */
@@ -101,10 +111,12 @@ class ManufactureService
     }
 
     /**
-     * @param $request
+     * processingRequest $request to Dto and push on save
+     *
+     * @param Request $request
      * @return bool
      */
-    public function createOneManufacture($request): bool
+    public function createOneManufacture(Request $request): bool
     {
         $dto = new ManufactureDto($request->title,
             (new DtoCollection())->add(
@@ -117,10 +129,13 @@ class ManufactureService
     }
 
     /**
-     * @param Request $manufactureMac
+     * checking $manufactureMac on the pattern
+     *
+     * $timeNow -> create date now
+     * @param string $manufactureMac
      * @return bool
      */
-    public function validateManufactureMac(Request $manufactureMac): bool
+    public function validateManufactureMac(string $manufactureMac): bool
     {
         $pattern = '/^(\d{2}-){2}\d{2}$|^\d{6}$/';
         $timeNow = Carbon::now();
@@ -137,6 +152,8 @@ class ManufactureService
     }
 
     /**
+     * checking (validate) whether it is possible to parse or pour data from a file
+     *
      * @return bool
      */
     public function validateCreateOrUpdateData(): bool

@@ -67,7 +67,12 @@ class XmlController extends Controller implements XmlInterface
     }
 
     /**
-     * @param Request $request
+     * get with $request string http, processing and save
+     *
+     * $request -> string http
+     * set arrays $pregMatchAll -> result with using function preg_match_all
+     * set arrays $result -> result function preg_split
+     * @param Request $request this string http
      * $result this array
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */

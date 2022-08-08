@@ -10,6 +10,9 @@ use App\Http\Dto\Manufacture\ManufactureDto;
 class FIleDataManufactureStructureHelper
 {
     /**
+     * create structure manufactures
+     *
+     * set structure data in $data
      * @param $xml
      * @return DtoCollection
      */
