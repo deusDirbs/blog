@@ -41,23 +41,6 @@ class ParsingController extends Controller implements ParsingInterface
     }
 
     /**
-     * @param bool $success
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
-     */
-    private function return(bool $success)
-    {
-        if ($success) {
-            session()->flash('success', 'File success create!');
-            return view('xml/create');
-        }
-
-        Log::warning('This DATA is in the wrong format!');
-        session()->flash('error', 'This DATA is in the wrong format!');
-
-        return back();
-    }
-
-    /**
      * get with $request string http, processing and save
      *
      * $request -> string http
@@ -69,15 +52,19 @@ class ParsingController extends Controller implements ParsingInterface
     public function create(Request $request)
     {
         if ($this->manufactureService->validateCreateOrUpdateData()) {
-            if ($isSuccess = is_string($data = $this->parsingService->getDataForCurl($request->http))) {
+            if (is_string($data = $this->parsingService->getDataForCurl($request->http))) {
                 $pregMatchAll = $this->parsingService->pregMatchAll($data);
                 $result = $this->parsingService->getFormat($pregMatchAll);
-                $isSuccess = $this->manufactureService->saveAll(DataStructureHelper::createManufactureStructure($result, $this->parsingService));
+                $this->manufactureService->saveAll(DataStructureHelper::createManufactureStructure($result, $this->parsingService));
             }
+        } else {
+            Log::warning('This DATA is in the wrong format!');
+            session()->flash('error', 'This DATA is in the wrong format!');
 
-            return $this->return($isSuccess);
+            return back();
         }
 
+        session()->flash('success', 'File success create!');
         return back();
     }
 }

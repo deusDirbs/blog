@@ -26,10 +26,7 @@ class ManufactureService
     {
         foreach ($dtoCollection->get() as $item) {
             $this->save($item);
-            return true;
         }
-
-       return false;
     }
 
     /**
@@ -160,13 +157,15 @@ class ManufactureService
     {
         $newDateTime = Carbon::now()->addHour(3)->addMinutes(-5);
         $manufacture = DB::table('manufacture')->orderBy('id', 'DESC')->first();
-
-        if ($newDateTime > $manufacture->created_at) {
-            return true;
-        } else {
-            Log::warning(Carbon::now()->addHour(3) . ' - Wait 5 minutes');
-            session()->flash('error', 'Wait 5 minutes');
-            return false;
+        if ($manufacture) {
+            if ($newDateTime > $manufacture->created_at) {
+                return true;
+            } else {
+                Log::warning(Carbon::now()->addHour(3) . ' - Wait 5 minutes');
+                session()->flash('error', 'Wait 5 minutes');
+                return false;
+            }
         }
+        return true;
     }
 }
