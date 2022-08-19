@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -22,6 +22,20 @@
 </head>
 
 <body>
+@if (\Session::has('error'))
+    <div class="alert alert-warning">
+        <ul style="text-align: center;">
+            {!! \Session::get('error') !!}
+        </ul>
+    </div>
+@endif
+@if (\Session::has('success'))
+    <div class="alert alert-success">
+        <ul style="text-align: center;">
+            {!! \Session::get('success') !!}
+        </ul>
+    </div>
+@endif
 <div class="container mt-5">
     <form action="{{route('parserCreate')}}" method="post" enctype="multipart/form-data">
         <h3 class="text-center mb-5">Write http text to save on BD</h3>

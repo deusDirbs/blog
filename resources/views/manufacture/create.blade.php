@@ -2,6 +2,20 @@
 
 @section('content')
     <div class="container">
+        @if (\Session::has('error'))
+            <div class="alert alert-warning">
+                <ul style="text-align: center">
+                    {!! \Session::get('error') !!}
+                </ul>
+            </div>
+        @endif
+            @if (\Session::has('success'))
+                <div class="alert alert-success">
+                    <ul style="text-align: center;">
+                        {!! \Session::get('success') !!}
+                    </ul>
+                </div>
+            @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
