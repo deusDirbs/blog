@@ -52,7 +52,6 @@ class CreateNewManufactures extends Command
      * $$data = Data curl
      * $$pregMatchAll = parsing $data, return array
      * $result = split Data, return array
-     * @return void
      */
     public function handle(): void
     {
@@ -60,11 +59,10 @@ class CreateNewManufactures extends Command
             $pregMatchAll = $this->parsingService->pregMatchAll($data);
             $result = $this->parsingService->getFormat($pregMatchAll);
             $this->manufactureService->saveAll(DataStructureHelper::createManufactureStructure($result, $this->parsingService));
-
-            $this->info('Successfully created new Manufactures');
-        } else {
-            Log::warning('Error creating new Manufactures');
-            $this->error('Error creating new Manufactures');
+            session()->flash('success', 'File success create!');
+        }  else {
+            Log::warning('This DATA is in the wrong format!');
+            session()->flash('error', 'This DATA is in the wrong format!');
         }
     }
 }
