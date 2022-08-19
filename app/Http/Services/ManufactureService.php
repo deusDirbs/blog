@@ -164,6 +164,7 @@ class ManufactureService
         if ($newDateTime > $manufacture->created_at) {
             return true;
         } else {
+            Log::warning( Carbon::now() . ' - Wait 5 minutes');
             session()->flash('error', 'Wait 5 minutes');
             return false;
         }
