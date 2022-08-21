@@ -63,6 +63,19 @@ return [
             ]) : [],
         ],
 
+        'mysql_testing' => [
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => 'laravel',
+            'username'  => env('TEST_DB_USERNAME', 'forge'),
+            'password'  => env('TEST_DB_PASSWORD', ''),
+            'port'      => 33061,
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

@@ -19,7 +19,8 @@
         "ext-xmlreader": "*",
         "ext-xml": "*",
         "ext-libxml": "*",
-      "ext-json": "*"
+      "ext-json": "*",
+      "ext-pdo": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"

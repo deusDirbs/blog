@@ -7,9 +7,9 @@ use App\Http\Dto\Manufacture\AddressDto;
 use App\Http\Dto\Manufacture\MacAddressDto;
 use App\Http\Dto\Manufacture\ManufactureDto;
 use App\Http\Services\XmlService;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\Exceptions\UnitException;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class XmlServiceTest extends TestCase
@@ -18,13 +18,30 @@ class XmlServiceTest extends TestCase
      * data fakeManufacture
      * @return DtoCollection|ManufactureDto
      */
-    public function fakeManufacture(): mixed
+    public function fakeManufacture($isTitle = false, $isMacAddress = false, $isAddress = false)
     {
-        $data = new DtoCollection();
-        $macAddressCollection = (new DtoCollection())->add(new MacAddressDto('fakeMacAddress', 'base64'))->add(new MacAddressDto('fakeMacAddress2', 'hex'));
-        $data->add(new ManufactureDto('fakeTitle', $macAddressCollection, new AddressDto('fakeStreet', 'fakeCity', 'fakeCountry')));
+        $dto = new DtoCollection();
+        $dto->add(new ManufactureDto('fakeTitle',
+            (new DtoCollection())->add(
+                new MacAddressDto('00-AA-00', 'hex')
+            ),
+            new AddressDto('fakeStreet', 'fakeCity', 'UA')
+        ));
 
-        return $data;
+        if ($isTitle) {
+            return $dto->get()[0];
+        }
+
+        if ($isMacAddress) {
+            return  (new MacAddressDto('00-AA-00', 'hex'));
+
+        }
+
+        if ($isAddress) {
+            return (new AddressDto('fakeStreet', 'fakeCity', 'UA'));
+        }
+
+        return $dto;
     }
 
     /**
@@ -32,13 +49,14 @@ class XmlServiceTest extends TestCase
      * set fakeManufacture
      * set $user auth
      * set $timeNow date now
-     * @param XmlService $xmlService
      * @return void
      */
-    public function test_create_new_xml_service(XmlService $xmlService): void
+    public function test_create_new_xml_service(): void
     {
+        $user = new User();
+        $xmlService = new XmlService();
         $timeNow = Carbon::now();
-        $user = Auth::user();
+        $user->getAttribute('id') ;
 
         if($xmlService->save($this->fakeManufacture(), $user, $timeNow)){
             $this->assertTrue(true);
@@ -50,13 +68,14 @@ class XmlServiceTest extends TestCase
     /**
      * test incorrect save xml structures
      * set empty data
-     * @param XmlService $xmlService
      * @return void
      */
-    public function test_create_new_incorrect_xml_service(XmlService $xmlService): void
+    public function test_create_new_incorrect_xml_service(): void
     {
+        $xmlService = new XmlService();
         $timeNow = Carbon::now();
-        $user = Auth::user();
+        $user = new User();
+        $user->getAttribute('id') ;
         $array = [];
 
         try {

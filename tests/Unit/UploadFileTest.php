@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Carbon\Exceptions\UnitException;
 use Tests\TestCase;
 
 class UploadFileTest extends TestCase
@@ -18,15 +19,21 @@ class UploadFileTest extends TestCase
     }
 
     /**
-     * check url POST: upload/upload-file
+     * check url POST: upload/upload-file incorrect
+     * push string http
+     * upload url waiting file
      * @return void
      */
     public function test_download_data_with_files(): void
     {
-        $response = $this->post('upload/upload-file', [
-            'http' => 'https://standards-oui.ieee.org/'
-        ]);
+        try {
+            $response = $this->post('upload/upload-file', [
+                'http' => 'https://standards-oui.ieee.org/'
+            ]);
+            $response->assertStatus(200);
 
-        $response->assertOk();
+        } catch (UnitException $exception) {
+            $response->assertStatus(302);
+        }
     }
 }

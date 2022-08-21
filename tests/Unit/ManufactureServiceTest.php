@@ -19,40 +19,45 @@ class ManufactureServiceTest extends TestCase
      * @param bool $isAddress
      * @return DtoCollection|ManufactureDto
      */
-    public function fakeManufacture($isTitle = false, $isMacAddress = false, $isAddress = false): mixed
+    public function fakeManufacture($isTitle = false, $isMacAddress = false, $isAddress = false)
     {
-        $data = new DtoCollection();
-        $macAddressCollection = (new DtoCollection())->add(new MacAddressDto('fakeMacAddress', 'base64'))->add(new MacAddressDto('fakeMacAddress2', 'hex'));
-        $data->add(new ManufactureDto('fakeTitle', $macAddressCollection, new AddressDto('fakeStreet', 'fakeCity', 'fakeCountry')));
+        $dto = new DtoCollection();
+        $dto->add(new ManufactureDto('fakeTitle',
+            (new DtoCollection())->add(
+                new MacAddressDto('00-AA-00', 'hex')
+            ),
+            new AddressDto('fakeStreet', 'fakeCity', 'UA')
+        ));
 
         if ($isTitle) {
-            return $data->get()[0];
+            return $dto->get()[0];
         }
 
         if ($isMacAddress) {
-            return $data->get()[1];
+            return  (new MacAddressDto('00-AA-00', 'hex'));
+
         }
 
         if ($isAddress) {
-            return $data->get()[2];
+            return (new AddressDto('fakeStreet', 'fakeCity', 'UA'));
         }
 
-        return $data;
+        return $dto;
     }
 
     /**
      * test save entity incorrect type
      * set $manufactureDto empty data
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_save_entity_incorrect_type(ManufactureService $manufactureService): void
+    public function test_save_entity_incorrect_type(): void
     {
+        $manufactureService = new ManufactureService();
         $manufactureDto = [];
 
         try {
-            $manufacture = $manufactureService->saveEntry($manufactureDto);
-            $this->assertTrue($manufacture);
+            $manufactureService->saveEntry($manufactureDto);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(true);
         }
@@ -61,14 +66,15 @@ class ManufactureServiceTest extends TestCase
     /**
      * test save entity correct type
      * set model
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_save_entity_correct_type(ManufactureService $manufactureService): void
+    public function test_save_entity_correct_type(): void
     {
+        $manufactureService = new ManufactureService();
+
         try {
-            $manufacture = $manufactureService->saveEntry($this->fakeManufacture(true));
-            $this->assertTrue($manufacture);
+            $manufactureService->saveEntry($this->fakeManufacture(true));
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -77,16 +83,16 @@ class ManufactureServiceTest extends TestCase
     /**
      * test save address relation incorrect type
      * set $fakeManufactureId string type
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_save_address_relation_incorrect_type(ManufactureService $manufactureService): void
+    public function test_save_address_relation_incorrect_type(): void
     {
+        $manufactureService = new ManufactureService();
         $fakeManufactureId = 'qweasdzxc';
 
         try {
-            $manufacture = $manufactureService->saveAddressRelation($this->fakeManufacture(true, true), $fakeManufactureId);
-            $this->assertTrue($manufacture);
+            $manufactureService->saveAddressRelation($this->fakeManufacture(true, true), $fakeManufactureId);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -94,17 +100,17 @@ class ManufactureServiceTest extends TestCase
 
     /**
      * test save address relation correct type
-     * set $fakeManufactureId int number 1
-     * @param ManufactureService $manufactureService
+     * set $fakeManufacture new model
      * @return void
      */
-    public function test_save_address_relation_correct_type(ManufactureService $manufactureService): void
+    public function test_save_address_relation_correct_type(): void
     {
-        $fakeManufactureId = 1;
+        $manufactureService = new ManufactureService();
+        $fakeManufacture = $manufactureService->saveEntry($this->fakeManufacture(true));
 
         try {
-            $manufacture = $manufactureService->saveAddressRelation($this->fakeManufacture(false, true), $fakeManufactureId);
-            $this->assertTrue($manufacture);
+            $manufactureService->saveAddressRelation($this->fakeManufacture(false, false, true), $fakeManufacture->id);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -113,16 +119,16 @@ class ManufactureServiceTest extends TestCase
     /**
      * test save mac address incorrect type
      * $fakeManufactureId = string
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_save_mac_address_incorrect_type(ManufactureService $manufactureService): void
+    public function test_save_mac_address_incorrect_type(): void
     {
+        $manufactureService = new ManufactureService();
         $fakeManufactureId = 'zxcvbnghj';
 
         try {
-            $manufacture = $manufactureService->saveAddressRelation($this->fakeManufacture(true, true, true), $fakeManufactureId);
-            $this->assertTrue($manufacture);
+            $manufactureService->saveAddressRelation($this->fakeManufacture(true, true, true), $fakeManufactureId);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -130,34 +136,35 @@ class ManufactureServiceTest extends TestCase
 
     /**
      * test save mac address incorrect type
-     * $fakeManufactureId = int
+     * $fakeManufacture new model
      * fakeManufacture -> get DTO Address
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_save_mac_address_correct_type(ManufactureService $manufactureService): void
+    public function test_save_mac_address_correct_type(): void
     {
-        $fakeManufactureId = 1;
+        $manufactureService = new ManufactureService();
+        $fakeManufacture = $manufactureService->saveEntry($this->fakeManufacture(true));
 
         try {
-            $manufacture = $manufactureService->saveAddressRelation($this->fakeManufacture(false, false, true), $fakeManufactureId);
-            $this->assertTrue($manufacture);
+            $manufactureService->saveMacAddressRelation($this->fakeManufacture(false, true), $fakeManufacture->id);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
     }
 
     /**
-     * test save all manufactures incorrect type
+     * test save all manufactures correct type
      * use fakeManufacture
-     * @param ManufactureService $manufactureService
+     * create all models manufactures
      * @return void
      */
-    public function test_save_all_manufactures_correct_type(ManufactureService $manufactureService): void
+    public function test_save_all_manufactures_correct_type(): void
     {
+        $manufactureService = new ManufactureService();
         try {
-            $manufacture = $manufactureService->saveAll($this->fakeManufacture());
-            $this->assertTrue($manufacture);
+            $manufactureService->saveAll($this->fakeManufacture());
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -166,14 +173,16 @@ class ManufactureServiceTest extends TestCase
     /**
      * test save manufactures incorrect type
      * use fakeManufacture
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_save_manufactures_correct_type(ManufactureService $manufactureService): void
+    public function test_save_manufactures_incorrect_type(): void
     {
+        $manufactureService = new ManufactureService();
+        $string = '';
+
         try {
-            $manufacture = $manufactureService->save($this->fakeManufacture());
-            $this->assertTrue($manufacture);
+            $manufactureService->save($string);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -181,17 +190,17 @@ class ManufactureServiceTest extends TestCase
 
     /**
      * test validate manufacture mac incorrect string
-     * $validateString empty string
-     * @param ManufactureService $manufactureService
+     * $validateString empty array
      * @return void
      */
-    public function test_validate_manufacture_mac_incorrect_string(ManufactureService $manufactureService): void
+    public function test_validate_manufacture_mac_incorrect_string(): void
     {
-        $validateString = '';
+        $manufactureService = new ManufactureService();
+        $validateArray = [];
 
         try {
-            $validateMac = $manufactureService->validateManufactureMac($validateString);
-            $this->assertTrue($validateMac);
+            $manufactureService->validateManufactureMac($validateArray);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -200,11 +209,11 @@ class ManufactureServiceTest extends TestCase
     /**
      * test validate manufacture mac correct string
      * $validateString correct mac
-     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function test_validate_manufacture_mac_correct_string(ManufactureService $manufactureService): void
+    public function test_validate_manufacture_mac_correct_string(): void
     {
+        $manufactureService = new ManufactureService();
         $validateString = '00-00-00';
 
         try {

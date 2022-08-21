@@ -27,6 +27,8 @@ class ManufactureService
         foreach ($dtoCollection->get() as $item) {
             $this->save($item);
         }
+
+        return true;
     }
 
     /**

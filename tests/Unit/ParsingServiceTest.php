@@ -58,14 +58,15 @@ company_id                                                  Organization
     /**
      * test get incorrect data for curl
      * set URL_INCORRECT data in getDataForCurl
-     * @param ParsingService $parsingService
      * @return void
      */
-    public function test_get_data_for_curl_incorrect(ParsingService $parsingService): void
+    public function test_get_data_for_curl_incorrect(): void
     {
+        $parsingService = new ParsingService();
+
         try {
-            $urlData = $parsingService->getDataForCurl(self::URL_INCORRECT, self::GOOGLE_INCORRECT);
-            $this->assertTrue($urlData);
+            $parsingService->getDataForCurl(self::URL_INCORRECT, self::GOOGLE_INCORRECT);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -74,14 +75,15 @@ company_id                                                  Organization
     /**
      * test get correct data for curl
      * set URL_CORRECT data in getDataForCurl
-     * @param ParsingService $parsingService
      * @return void
      */
-    public function test_get_data_for_curl_correct(ParsingService $parsingService): void
+    public function test_get_data_for_curl_correct(): void
     {
+        $parsingService = new ParsingService();
+
         try {
-            $urlData = $parsingService->getDataForCurl(self::URL_CORRECT, self::GOOGLE_CORRECT);
-            $this->assertTrue($urlData);
+            $parsingService->getDataForCurl(self::URL_CORRECT, self::GOOGLE_CORRECT);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -90,14 +92,15 @@ company_id                                                  Organization
     /**
      * test preg_match_all incorrect
      * set URL_INCORRECT data in pregMatchAll
-     * @param ParsingService $parsingService
      * @return void
      */
-    public function test_preg_match_all_incorrect(ParsingService $parsingService): void
+    public function test_preg_match_all_incorrect(): void
     {
+        $parsingService = new ParsingService();
+
         try {
-            $urlData = $parsingService->pregMatchAll(self::URL_INCORRECT);
-            $this->assertTrue($urlData);
+            $parsingService->pregMatchAll(self::URL_INCORRECT);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -106,14 +109,15 @@ company_id                                                  Organization
     /**
      * test preg_match_all correct
      * set URL_CORRECT data in pregMatchAll
-     * @param ParsingService $parsingService
      * @return void
      */
-    public function test_preg_match_all_correct(ParsingService $parsingService): void
+    public function test_preg_match_all_correct(): void
     {
+        $parsingService = new ParsingService();
+
         try {
-            $urlData = $parsingService->pregMatchAll($this->text());
-            $this->assertTrue($urlData);
+            $parsingService->pregMatchAll($this->text());
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
@@ -122,30 +126,15 @@ company_id                                                  Organization
     /**
      * test get_format incorrect
      * set GOOGLE_INCORRECT data in getFormat
-     * @param ParsingService $parsingService
      * @return void
      */
-    public function test_get_format_incorrect(ParsingService $parsingService): void
+    public function test_get_format_incorrect(): void
     {
-        try {
-            $urlData = $parsingService->getFormat(self::GOOGLE_INCORRECT);
-            $this->assertTrue($urlData);
-        } catch (UnitException $exception) {
-            $this->assertFalse(false);
-        }
-    }
+        $parsingService = new ParsingService();
 
-    /**
-     * test get_format correct
-     * set GOOGLE_CORRECT data in getFormat
-     * @param ParsingService $parsingService
-     * @return void
-     */
-    public function test_get_format_correct(ParsingService $parsingService): void
-    {
         try {
-            $urlData = $parsingService->getFormat($this->textArray());
-            $this->assertTrue($urlData);
+            $parsingService->getFormat(self::GOOGLE_INCORRECT);
+            $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);
         }
