@@ -25,10 +25,15 @@ class XmlTest extends TestCase
      */
     public function test_created_xml_file(): void
     {
-        $response = $this->post('upload/xml', [
-            'http' => 'https://standards-oui.ieee.org/'
-        ]);
+        try {
+            $response = $this->post('upload/xml', [
+                'http' => 'https://standards-oui.ieee.org/'
+            ]);
 
-        $response->assertOk();
+            $response->assertOk();
+        } catch (\Exception $exception) {
+            $response->assertStatus(500);
+        }
+
     }
 }

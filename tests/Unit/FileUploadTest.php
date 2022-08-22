@@ -10,11 +10,11 @@ class FileUploadTest extends TestCase
     /**
      * test incorrect save upload file
      * set empty data
-     * @param UploadFileService $fileService
      * @return void
      */
-    public function test_incorrect_save_upload_file(UploadFileService $fileService): void
+    public function test_incorrect_save_upload_file(): void
     {
+        $fileService = new UploadFileService();
         $emptyArray = [];
 
         if (is_string($emptyArray) || empty($emptyArray)) {
@@ -22,25 +22,6 @@ class FileUploadTest extends TestCase
         } else {
             $fileService->save($emptyArray);
             $this->assertTrue(true);
-        }
-    }
-
-    /**
-     * test incorrect create data for upload file
-     * set empty data
-     * @param UploadFileService $fileService
-     * @return void
-     */
-    public function test_incorrect_create_upload_file(UploadFileService $fileService): void
-    {
-        $request = [];
-        $fileModel = '';
-        $file = $fileService->create($request, $fileModel);
-
-        if (is_string($file)) {
-            $this->assertTrue(true);
-        } else {
-            $this->assertFalse(false);
         }
     }
 }

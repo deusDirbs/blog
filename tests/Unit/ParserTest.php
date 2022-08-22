@@ -16,17 +16,4 @@ class ParserTest extends TestCase
 
         $response->assertStatus(200);
     }
-
-    /**
-     * push string url in create manufacture
-     * @return void
-     */
-    public function test_create_manufactures(): void
-    {
-        $response = $this->post('parser/create', [
-            'http' => 'https://standards-oui.ieee.org/'
-        ]);
-
-        $response->assertOk();
-    }
 }

@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use Carbon\Exceptions\UnitException;
 use Tests\TestCase;
 
 class UploadFileTest extends TestCase
@@ -30,10 +29,10 @@ class UploadFileTest extends TestCase
             $response = $this->post('upload/upload-file', [
                 'http' => 'https://standards-oui.ieee.org/'
             ]);
-            $response->assertStatus(200);
 
-        } catch (UnitException $exception) {
             $response->assertStatus(302);
+        } catch (\Exception$exception) {
+            $response->assertStatus(500);
         }
     }
 }

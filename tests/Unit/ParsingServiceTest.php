@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ParsingServiceTest extends TestCase
 {
     const URL_CORRECT = 'https://standards-oui.ieee.org/';
-    const URL_INCORRECT = [];
+    const URL_INCORRECT = 'standards-oui.ieee.org';
     const GOOGLE_CORRECT = "http://www,google.com";
     const GOOGLE_INCORRECT = "http://gogle.ua";
 
@@ -133,7 +133,7 @@ company_id                                                  Organization
         $parsingService = new ParsingService();
 
         try {
-            $parsingService->getFormat(self::GOOGLE_INCORRECT);
+            $parsingService->getFormat([]);
             $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);

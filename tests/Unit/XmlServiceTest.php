@@ -76,10 +76,9 @@ class XmlServiceTest extends TestCase
         $timeNow = Carbon::now();
         $user = new User();
         $user->getAttribute('id') ;
-        $array = [];
 
         try {
-            $xmlService->save($array, $user, $timeNow);
+            $xmlService->save($this->fakeManufacture(), $user, $timeNow);
             $this->assertTrue(true);
         } catch (UnitException $exception) {
             $this->assertFalse(false);

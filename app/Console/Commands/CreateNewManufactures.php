@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Helpers\DataStructureHelper;
 use App\Http\Services\ManufactureService;
 use App\Http\Services\ParsingService;
+use App\Models\Manufacture;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -60,6 +61,8 @@ class CreateNewManufactures extends Command
             $result = $this->parsingService->getFormat($pregMatchAll);
             $this->manufactureService->saveAll(DataStructureHelper::createManufactureStructure($result, $this->parsingService));
             session()->flash('success', 'File success create!');
+            $count = Manufacture::all();
+            $this->info('Successfully created new Manufactures, count - '.count($count));
         }  else {
             Log::warning('This DATA is in the wrong format!');
             session()->flash('error', 'This DATA is in the wrong format!');

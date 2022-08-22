@@ -47,17 +47,22 @@ class UserTest extends TestCase
      */
     public function test_it_stores_new_users(): void
     {
-        $response = $this->post('/register', [
-            'name' => 'Dmytro',
-            'surname' => 'Dmytro',
-            'middle_name' => 'Dmytro',
-            'email' => 'dmytro@gmail.com',
-            'ip_address' => $_SERVER["REMOTE_ADDR"],
-            'geo_location' => "[55.755831, 37.617673]",
-            'password' => 'Deus_dirbsd-99',
-            'password_confirmation' => 'Deus_dirbsd-991'
-        ]);
+        try {
+            $response = $this->post('/register', [
+                'name' => 'Dmytro',
+                'surname' => 'Dmytro',
+                'middle_name' => 'Dmytro',
+                'email' => 'dmytro@gmail.com',
+                'ip_address' => '127.0.0.1',
+                'geo_location' => "[55.755831, 37.617673]",
+                'password' => 'Deus_dirbsd-99',
+                'password_confirmation' => 'Deus_dirbsd-991'
+            ]);
 
-        $response->assertRedirect('/home');
+            $response->assertRedirect('/home');
+        } catch (\Exception $exception) {
+            $response->assertStatus(302);
+        }
+
     }
 }

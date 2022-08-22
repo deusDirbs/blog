@@ -10,19 +10,6 @@ use Illuminate\Http\Request;
 class UploadFileService
 {
     /**
-     * @var ManufactureService
-     */
-    private $manufactureService;
-
-    /**
-     * @param ManufactureService $manufactureService
-     */
-    public function __construct(ManufactureService $manufactureService)
-    {
-        $this->manufactureService = $manufactureService;
-    }
-
-    /**
      * validate on the form
      *
      * @param Request $req
@@ -40,16 +27,17 @@ class UploadFileService
      *
      * $uploadFile- > process the file
      * @param Request $request
+     * @param ManufactureService $manufactureService
      * @return void
      */
-    public function save(Request $request): void
+    public function save(Request $request, ManufactureService $manufactureService): void
     {
         $fileModel = new File;
         $uploadFile = $this->create($request, $fileModel);
         $uploadFile = str_replace('&', '-', $uploadFile);
         $xml = simplexml_load_string($uploadFile);
 
-        $this->manufactureService->saveAll(FIleDataManufactureStructureHelper::createFileManufactureStructure($xml));
+        $manufactureService->saveAll(FIleDataManufactureStructureHelper::createFileManufactureStructure($xml));
     }
 
     /**
