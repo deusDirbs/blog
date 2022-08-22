@@ -12,6 +12,7 @@ use App\Http\Services\ParsingService;
 class DataStructureHelper
 {
     public const EXCEPTION = ['Private'];
+    public const EXCEPTION2 = ['B4-6D-C2'];
 
     /**
      * @param array $result
@@ -25,21 +26,23 @@ class DataStructureHelper
             if (isset($item[1]) && in_array($item[1], self::EXCEPTION)) continue;
             $address = $parsingService->splitMacAddress($item[0] ?? '-');
             $array = new DtoCollection();
-            $array->add(new MacAddressDto(
-                    $address[0] ?? '-',
-                    $address[1] ?? '-'
-                )
-            );
-            $address = $parsingService->splitMacAddress($item[2] ?? '-');
-            $array->add(new MacAddressDto(
-                    $address[0] ?? '-',
-                    $address[1] ?? '-'
-                )
-            );
+            if (isset($address[0]) && in_array($address[0], self::EXCEPTION2)) break;
+            {
+                $array->add(new MacAddressDto(
+                        $address[0] ?? '-',
+                        $address[1] ?? '-'
+                    )
+                );
+                $address = $parsingService->splitMacAddress($item[2] ?? '-');
+                $array->add(new MacAddressDto(
+                        $address[0] ?? '-',
+                        $address[1] ?? '-'
+                    )
+                );
 
-            $data->add(new ManufactureDto($item[1] ?? '-', $array, new AddressDto($item[3] ?? '-', $item[4] ?? '-', $item[5] ?? '-')));
+                $data->add(new ManufactureDto($item[1] ?? '-', $array, new AddressDto($item[3] ?? '-', $item[4] ?? '-', $item[5] ?? '-')));
+            }
         }
-
         return $data;
     }
 }
